@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PageHome from "./pages";
+import Page404 from "./pages/404";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <div>front home</div>;
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<PageHome />} />
+          <Route path="*" element={<Page404 />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
 }
 
 export default App;

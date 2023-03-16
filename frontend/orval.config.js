@@ -1,12 +1,12 @@
 module.exports = {
   sixthree: {
     input: {
-      target: "http://localhost:3000/api",
+      target: "http://localhost:3000/api-json",
     },
     output: {
-      mode: "split",
+      mode: "tags-split",
       target: "./src/api/generated/hooks.ts",
-      schemas: "./src/api/generated/types",
+      schemas: "./src/api/generated/models",
       client: "react-query",
       override: {
         mutator: {
@@ -20,8 +20,5 @@ module.exports = {
         },
       },
     },
-    // hooks: {
-    //   afterAllFilesWrite: ["eslint --fix", "prettier --write"],
-    // },
   },
 };

@@ -10,7 +10,7 @@ type CustomClient<T> = (data: {
 export const useCustomClient = <T>(): CustomClient<T> => {
   return async ({ url, method, params, data }) => {
     const response = await fetch(
-      import.meta.env.BASE_URL + url + "?" + new URLSearchParams(params),
+      "http://localhost:3000" + url + "?" + new URLSearchParams(params),
       {
         method,
         credentials: "include",
@@ -22,13 +22,7 @@ export const useCustomClient = <T>(): CustomClient<T> => {
       }
     );
 
-    const responseJson = await response.json();
-
-    if (!response.ok) {
-      throw responseJson;
-    }
-
-    return responseJson;
+    return response.json();
   };
 };
 

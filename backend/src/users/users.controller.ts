@@ -14,7 +14,7 @@ export class UsersController {
     type: UserEntity,
     isArray: true,
   })
-  async findAll(): Promise<UserEntity[]> {
+  async usersFindAll(): Promise<UserEntity[]> {
     return await this.usersService.findAll();
   }
 
@@ -23,7 +23,7 @@ export class UsersController {
     status: 200,
     type: UserEntity,
   })
-  findOne(@Param('id') id: number): Promise<UserEntity> {
-    return this.usersService.findOne(id);
+  async usersFindOne(@Param('id') id: number): Promise<UserEntity> {
+    return await this.usersService.findOne(id);
   }
 }

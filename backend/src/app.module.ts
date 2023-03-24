@@ -8,7 +8,6 @@ import { join } from 'path';
 import * as process from 'process';
 import { DataSource } from 'typeorm';
 import { UsersModule } from './users/users.module';
-import { PetsModule } from './pets/pets.module';
 
 @Module({
   imports: [
@@ -40,7 +39,6 @@ import { PetsModule } from './pets/pets.module';
 
     ConfigModule.forRoot(),
     UsersModule,
-    PetsModule,
   ],
   controllers: [],
   providers: [],

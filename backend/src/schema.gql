@@ -2,37 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CreatePetInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
-type Mutation {
-  createPet(createPetInput: CreatePetInput!): Pet!
-  removePet(id: Int!): Pet!
-  updatePet(updatePetInput: UpdatePetInput!): Pet!
-}
-
-type Pet {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Query {
-  findAll: [User!]!
-  pet(id: Int!): Pet!
-  pets: [Pet!]!
-}
-
-input UpdatePetInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  user(id: Int!): User!
+  users: [User!]!
 }
 
 type User {

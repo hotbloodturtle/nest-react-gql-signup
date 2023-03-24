@@ -11,6 +11,6 @@ COPY --from=frontend-build /usr/src/app/frontend/dist ./frontend/dist
 COPY backend/ ./backend/
 RUN cd backend && pnpm install --frozen-lockfile && pnpm build
 
-EXPOSE 3000
+EXPOSE 8000
 
 CMD ["node", "./backend/dist/src/main"]

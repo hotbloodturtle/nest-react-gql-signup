@@ -1,3 +1,4 @@
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import {
   Column,
   CreateDateColumn,
@@ -5,27 +6,26 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { ApiProperty } from '@nestjs/swagger';
-
+@ObjectType()
 @Entity('user')
-export class UserEntity {
-  @ApiProperty({ required: false })
+export class User {
+  @Field(() => Int, { description: 'pk' })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty()
+  @Field(() => String, { description: 'email' })
   @Column({ length: 60, unique: true })
   email: string;
 
-  @ApiProperty()
+  @Field(() => String, { description: 'password' })
   @Column({ length: 30 })
   password: string;
 
-  @ApiProperty({ required: false })
+  @Field(() => String, { description: 'name' })
   @Column({ length: 50 })
   name: string;
 
-  @ApiProperty({ required: false })
+  @Field(() => Date, { description: 'createdAt' })
   @CreateDateColumn()
   createdAt: Date;
 }

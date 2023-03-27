@@ -1,15 +1,18 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { graphql } from "../gql";
+
+const users = graphql(`
+  query users {
+    users {
+      id
+      name
+      createdAt
+    }
+  }
+`);
 
 const PageHome = () => {
-  const { data } = useQuery(gql`
-    query {
-      users {
-        id
-        name
-        createdAt
-      }
-    }
-  `);
+  const { data } = useQuery(users);
   console.log(data);
   return (
     <div>

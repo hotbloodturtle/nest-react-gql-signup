@@ -13,12 +13,11 @@ const users = graphql(`
 
 const PageHome = () => {
   const { data } = useQuery(users);
-  console.log(data);
   return (
     <div>
       <h1>Home</h1>
       <p>Home page</p>
-      <p>Home page</p>
+      <p>{JSON.stringify(data)}</p>
     </div>
   );
 };

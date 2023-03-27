@@ -8,7 +8,7 @@ import PageSignup from "./pages/admin/signup";
 
 function App() {
   const client = new ApolloClient({
-    uri: `${import.meta.env.LOCAL_URL ?? ""}/graphql`,
+    uri: `${import.meta.env.VITE_API_URL ?? ""}/graphql`,
     cache: new InMemoryCache(),
   });
   return (

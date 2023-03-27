@@ -1,5 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -18,7 +20,7 @@ export class User {
   email: string;
 
   @Field(() => String, { description: 'password' })
-  @Column({ length: 30 })
+  @Column()
   password: string;
 
   @Field(() => String, { description: 'name' })
@@ -28,4 +30,13 @@ export class User {
   @Field(() => Date, { description: 'createdAt' })
   @CreateDateColumn()
   createdAt: Date;
+
+  @BeforeInsert()
+  hashPassword(): void {
+    this.password = hashSync(this.password, genSaltSync());
+  }
+
+  compoarePassword(password: string): boolean {
+    return compareSync(password, this.password);
+  }
 }

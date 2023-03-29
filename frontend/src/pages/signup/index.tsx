@@ -1,8 +1,9 @@
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { createContainer } from "unstated-next";
 import { graphql } from "../../gql";
+import { SignupInput } from "../../gql/graphql";
 
 const signupMutationDocument = graphql(`
   mutation Signup($input: SignupInput!) {
@@ -15,19 +16,9 @@ const signupMutationDocument = graphql(`
 
 const SignupContainer = createContainer(() => {
   const [mutation] = useMutation(signupMutationDocument);
-  const [fields, setFields] = useState<{
-    email: string;
-    password: string;
-    name: string;
-  }>({
-    email: "",
-    password: "",
-    name: "",
-  });
-  const signup = () => {
-    console.log(fields);
+  const signup = (input: SignupInput) => {
     mutation({
-      variables: { input: { email: "test", password: "test", name: "test" } },
+      variables: { input },
       onCompleted: (data) => {
         console.log("signup completed", data);
       },
@@ -36,32 +27,30 @@ const SignupContainer = createContainer(() => {
       },
     });
   };
-  return { signup, fields, setFields };
+  return { signup };
 });
 
 const ContentSignUp = () => {
-  const { signup, fields, setFields } = SignupContainer.useContainer();
+  const { register, handleSubmit } = useForm<SignupInput>();
+  const { signup } = SignupContainer.useContainer();
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
+    <form onSubmit={handleSubmit(signup)}>
       <input
         type="text"
         placeholder="email"
-        value={fields.email}
-        onChange={(e) => setFields({ ...fields, email: e.target.value })}
+        {...register("email", { required: true })}
       />
       <input
         type="password"
         placeholder="password"
-        value={fields.password}
-        onChange={(e) => setFields({ ...fields, password: e.target.value })}
+        {...register("password", { required: true })}
       />
       <input
         type="text"
         placeholder="name"
-        value={fields.name}
-        onChange={(e) => setFields({ ...fields, name: e.target.value })}
+        {...register("name", { required: true })}
       />
-      <button onClick={signup}>Signup</button>
+      <button>Signup</button>
     </form>
   );
 };

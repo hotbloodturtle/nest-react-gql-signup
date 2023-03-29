@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PageHome from "./pages";
 import Page404 from "./pages/404";
 import PageAdminHome from "./pages/admin";
-import PageSignin from "./pages/admin/signin";
-import PageSignup from "./pages/admin/signup";
+import PageSignin from "./pages/signin";
+import PageSignup from "./pages/signup";
 
 function App() {
   const client = new ApolloClient({
@@ -15,12 +15,15 @@ function App() {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Routes>
+          {/* user */}
           <Route path="/" element={<PageHome />} />
+          <Route path="/signin" element={<PageSignin />}></Route>
+          <Route path="/signup" element={<PageSignup />}></Route>
 
+          {/* admin */}
           <Route path="/admin" element={<PageAdminHome />}></Route>
-          <Route path="/admin/signin" element={<PageSignin />}></Route>
-          <Route path="/admin/signup" element={<PageSignup />}></Route>
 
+          {/* 404 */}
           <Route path="*" element={<Page404 />} />
         </Routes>
       </BrowserRouter>

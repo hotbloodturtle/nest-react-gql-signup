@@ -24,7 +24,7 @@ import { UsersModule } from './users/users.module';
       port: 3306,
       username: process.env.DATABASE_USERNAME || 'root',
       password: process.env.DATABASE_PASSWORD || '',
-      database: process.env.DATABASE_NAME || 'sixthree_moneybook_local',
+      database: process.env.DATABASE_NAME || 'myproj',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: false,
     }),

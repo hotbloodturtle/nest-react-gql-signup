@@ -13,7 +13,7 @@ import { UsersModule } from './users/users.module';
   imports: [
     // frontend static setting
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', '..', 'frontend', 'dist'),
+      rootPath: join(__dirname, '..', '..', 'frontend', 'dist'),
       exclude: ['/api*', '/graphql'],
     }),
 

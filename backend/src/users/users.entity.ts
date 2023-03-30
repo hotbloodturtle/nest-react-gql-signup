@@ -5,31 +5,46 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
+  Relation,
+  UpdateDateColumn,
 } from 'typeorm';
 
-@ObjectType()
 @Entity('user')
+@ObjectType()
 export class User {
-  @Field(() => Int, { description: 'pk' })
   @PrimaryGeneratedColumn()
+  @Field(() => Int)
   id: number;
 
-  @Field(() => String, { description: 'email' })
+  @Column({ default: false, name: 'is_admin' })
+  @Field(() => Boolean)
+  isAdmin: boolean;
+
+  @Column({ default: false, name: 'is_active' })
+  @Field(() => Boolean)
+  isActive: boolean;
+
   @Column({ length: 60, unique: true })
+  @Field(() => String)
   email: string;
 
-  @Field(() => String, { description: 'password' })
   @Column()
+  @Field(() => String)
   password: string;
 
-  @Field(() => String, { description: 'name' })
   @Column({ length: 50 })
+  @Field(() => String)
   name: string;
 
-  @Field(() => Date, { description: 'createdAt' })
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
+  @Field(() => Date)
   createdAt: Date;
+
+  @OneToOne(() => Verification, (verification) => verification.user)
+  verification: Relation<Verification>;
 
   @BeforeInsert()
   hashPassword(): void {
@@ -38,5 +53,34 @@ export class User {
 
   compoarePassword(password: string): boolean {
     return compareSync(password, this.password);
+  }
+}
+
+@Entity('verification')
+@ObjectType()
+export class Verification {
+  @PrimaryGeneratedColumn()
+  @Field(() => Int)
+  id: number;
+
+  @OneToOne(() => User, (user) => user.verification, { cascade: true })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @Column({ length: 20 })
+  @Field(() => String)
+  code: string;
+
+  @UpdateDateColumn({ name: 'confirmed_at', nullable: true })
+  @Field(() => Date)
+  confirmedAt: Date;
+
+  @CreateDateColumn({ name: 'created_at' })
+  @Field(() => Date)
+  createdAt: Date;
+
+  @BeforeInsert()
+  createCode(): void {
+    this.code = Math.random().toString(10).substring(2, 8);
   }
 }

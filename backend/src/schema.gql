@@ -29,18 +29,11 @@ input SignupInput {
 }
 
 type User {
-  """createdAt"""
   createdAt: DateTime!
-
-  """email"""
   email: String!
-
-  """pk"""
   id: Int!
-
-  """name"""
+  isActive: Boolean!
+  isAdmin: Boolean!
   name: String!
-
-  """password"""
   password: String!
 }

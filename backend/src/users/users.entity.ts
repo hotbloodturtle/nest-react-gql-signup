@@ -5,12 +5,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
-  Relation,
-  UpdateDateColumn,
 } from 'typeorm';
+import { Verification } from '../auth/auth.entity';
 
 @Entity('user')
 @ObjectType()
@@ -44,7 +42,7 @@ export class User {
   createdAt: Date;
 
   @OneToOne(() => Verification, (verification) => verification.user)
-  verification: Relation<Verification>;
+  verification: Verification;
 
   @BeforeInsert()
   hashPassword(): void {
@@ -53,34 +51,5 @@ export class User {
 
   compoarePassword(password: string): boolean {
     return compareSync(password, this.password);
-  }
-}
-
-@Entity('verification')
-@ObjectType()
-export class Verification {
-  @PrimaryGeneratedColumn()
-  @Field(() => Int)
-  id: number;
-
-  @OneToOne(() => User, (user) => user.verification, { cascade: true })
-  @JoinColumn({ name: 'user_id' })
-  user: User;
-
-  @Column({ length: 20 })
-  @Field(() => String)
-  code: string;
-
-  @UpdateDateColumn({ name: 'confirmed_at', nullable: true })
-  @Field(() => Date)
-  confirmedAt: Date;
-
-  @CreateDateColumn({ name: 'created_at' })
-  @Field(() => Date)
-  createdAt: Date;
-
-  @BeforeInsert()
-  createCode(): void {
-    this.code = Math.random().toString(10).substring(2, 8);
   }
 }

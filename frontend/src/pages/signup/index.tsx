@@ -5,7 +5,7 @@ import { createContainer } from "unstated-next";
 import { graphql } from "../../gql";
 import { SignupInput } from "../../gql/graphql";
 
-const signupMutationDocument = graphql(`
+const signupDoc = graphql(`
   mutation Signup($input: SignupInput!) {
     signup(input: $input) {
       email
@@ -15,7 +15,7 @@ const signupMutationDocument = graphql(`
 `);
 
 const SignupContainer = createContainer(() => {
-  const [mutation] = useMutation(signupMutationDocument);
+  const [mutation] = useMutation(signupDoc);
   const signup = (input: SignupInput) => {
     mutation({
       variables: { input },

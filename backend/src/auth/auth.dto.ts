@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 @InputType()
 export class SignupInput {
@@ -19,4 +19,13 @@ export class SigninInput {
 
   @Field()
   password: string;
+}
+
+@ObjectType()
+export class TokenType {
+  @Field()
+  accessToken: string;
+
+  // @Field()
+  // refresh_token: string;
 }

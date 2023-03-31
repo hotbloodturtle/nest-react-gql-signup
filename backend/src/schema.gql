@@ -8,13 +8,14 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Mutation {
-  signin(input: SigninInput!): User
+  signin(input: SigninInput!): TokenType
   signup(input: SignupInput!): User!
 }
 
 type Query {
   user(email: String!): User!
   users: [User!]!
+  whoAmI: User!
 }
 
 input SigninInput {
@@ -26,6 +27,10 @@ input SignupInput {
   email: String!
   name: String!
   password: String!
+}
+
+type TokenType {
+  accessToken: String!
 }
 
 type User {

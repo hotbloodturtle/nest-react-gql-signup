@@ -26,6 +26,6 @@ export class TokenType {
   @Field()
   accessToken: string;
 
-  // @Field()
-  // refresh_token: string;
+  @Field()
+  refreshToken: string;
 }

@@ -10,6 +10,7 @@ function App() {
   const client = new ApolloClient({
     uri: `${import.meta.env.VITE_API_URL ?? ""}/graphql`,
     cache: new InMemoryCache(),
+    credentials: "include",
   });
   return (
     <ApolloProvider client={client}>

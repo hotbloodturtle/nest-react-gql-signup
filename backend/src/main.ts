@@ -10,8 +10,10 @@ async function bootstrap() {
 
   // cors
   app.enableCors({
+    methods: ['POST'],
     origin: true,
     credentials: true,
+    optionsSuccessStatus: 200,
   });
 
   // run

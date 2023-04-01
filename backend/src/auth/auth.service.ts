@@ -17,10 +17,11 @@ export class AuthService {
 
   async signin(input: SigninInput): Promise<TokenType> {
     const user = await this.usersService.findOne(input.email);
-    if (user && user.compoarePassword(input.password)) {
-      const payload = { username: user.email, sub: user.id };
+    if (user && user.comparePassword(input.password)) {
+      const payload = { username: user.email, sub: user.id, name: user.name };
       return {
         accessToken: this.jwtService.sign(payload),
+        refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
       };
     }
   }

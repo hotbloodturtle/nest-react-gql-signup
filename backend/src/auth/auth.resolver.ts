@@ -1,9 +1,10 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { UseGuards } from '@nestjs/common';
+import { Response } from 'express';
 import { User } from '../users/users.entity';
 import { UsersService } from '../users/users.service';
-import { CurrentUser, GqlAuthGuard } from './auth.decorator';
+import { CurrentUser, GqlAuthGuard, GraphqlResponse } from './auth.decorator';
 import { SigninInput, SignupInput, TokenType } from './auth.dto';
 import { AuthService } from './auth.service';
 
@@ -20,7 +21,20 @@ export class AuthResolver {
   }
 
   @Mutation(() => TokenType, { nullable: true })
-  signin(@Args('input') input: SigninInput): Promise<TokenType> {
+  async signin(
+    @Args('input') input: SigninInput,
+    @GraphqlResponse() res: Response,
+  ): Promise<TokenType> {
+    const token = await this.authService.signin(input);
+    if (token) {
+      res.cookie('refreshToken', token.refreshToken, {
+        httpOnly: true,
+        secure: true,
+        path: '/',
+        maxAge: 60 * 60 * 24 * 30,
+        sameSite: 'none',
+      });
+    }
     return this.authService.signin(input);
   }
 

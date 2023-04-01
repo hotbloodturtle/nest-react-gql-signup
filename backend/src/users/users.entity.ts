@@ -49,7 +49,7 @@ export class User {
     this.password = hashSync(this.password, genSaltSync());
   }
 
-  compoarePassword(password: string): boolean {
+  comparePassword(password: string): boolean {
     return compareSync(password, this.password);
   }
 }

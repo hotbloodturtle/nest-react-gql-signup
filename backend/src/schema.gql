@@ -13,7 +13,6 @@ type Mutation {
 }
 
 type Query {
-  user(email: String!): User!
   users: [User!]!
   whoAmI: User!
 }
@@ -31,6 +30,7 @@ input SignupInput {
 
 type TokenType {
   accessToken: String!
+  refreshToken: String!
 }
 
 type User {

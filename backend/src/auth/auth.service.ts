@@ -1,12 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { User } from '../users/users.entity';
 import { UsersService } from '../users/users.service';
 import { SigninInput, SignupInput, TokenType } from './auth.dto';
+import { Verification } from './auth.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(Verification)
+    private repository: Repository<Verification>,
     private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
@@ -24,5 +29,9 @@ export class AuthService {
         refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
       };
     }
+  }
+
+  verifications(): Promise<Verification[]> {
+    return this.repository.find({ relations: ['user'] });
   }
 }

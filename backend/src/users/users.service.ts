@@ -11,7 +11,7 @@ export class UsersService {
     private repository: Repository<User>,
   ) {}
   findAll(): Promise<User[]> {
-    return this.repository.find();
+    return this.repository.find({ relations: ['verification'] });
   }
   findOne(email: string): Promise<User> {
     return this.repository.findOneBy({ email });

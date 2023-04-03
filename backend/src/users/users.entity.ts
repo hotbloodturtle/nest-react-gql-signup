@@ -41,7 +41,10 @@ export class User {
   @Field(() => Date)
   createdAt: Date;
 
-  @OneToOne(() => Verification, (verification) => verification.user)
+  @OneToOne(() => Verification, (verification) => verification.user, {
+    nullable: true,
+  })
+  @Field(() => Verification, { nullable: true })
   verification: Verification;
 
   @BeforeInsert()

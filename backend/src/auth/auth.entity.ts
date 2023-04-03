@@ -18,8 +18,11 @@ export class Verification {
   @Field(() => Int)
   id: number;
 
-  @OneToOne(() => User, (user) => user.verification, { cascade: true })
+  @OneToOne(() => User, (user) => user.verification, {
+    cascade: true,
+  })
   @JoinColumn({ name: 'user_id' })
+  @Field(() => User)
   user: User;
 
   @Column({ length: 20 })

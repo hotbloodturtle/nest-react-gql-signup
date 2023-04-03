@@ -14,6 +14,7 @@ type Mutation {
 
 type Query {
   users: [User!]!
+  verifications: [Verification!]!
   whoAmI: User!
 }
 
@@ -41,4 +42,13 @@ type User {
   isAdmin: Boolean!
   name: String!
   password: String!
+  verification: Verification
+}
+
+type Verification {
+  code: String!
+  confirmedAt: DateTime!
+  createdAt: DateTime!
+  id: Int!
+  user: User!
 }

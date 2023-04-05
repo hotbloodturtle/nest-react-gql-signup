@@ -13,8 +13,6 @@ type Mutation {
 }
 
 type Query {
-  users: [User!]!
-  verifications: [Verification!]!
   whoAmI: User!
 }
 

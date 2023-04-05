@@ -34,14 +34,7 @@ export type MutationSignupArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  user: User;
-  users: Array<User>;
   whoAmI: User;
-};
-
-
-export type QueryUserArgs = {
-  email: Scalars['String'];
 };
 
 export type SigninInput = {
@@ -58,6 +51,7 @@ export type SignupInput = {
 export type TokenType = {
   __typename?: 'TokenType';
   accessToken: Scalars['String'];
+  refreshToken: Scalars['String'];
 };
 
 export type User = {
@@ -69,12 +63,22 @@ export type User = {
   isAdmin: Scalars['Boolean'];
   name: Scalars['String'];
   password: Scalars['String'];
+  verification?: Maybe<Verification>;
 };
 
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type Verification = {
+  __typename?: 'Verification';
+  code: Scalars['String'];
+  confirmedAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  user: User;
+};
+
+export type WhoAmIQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: number, name: string, createdAt: any }> };
+export type WhoAmIQuery = { __typename?: 'Query', whoAmI: { __typename?: 'User', id: number, name: string } };
 
 export type SigninMutationVariables = Exact<{
   input: SigninInput;
@@ -91,6 +95,6 @@ export type SignupMutationVariables = Exact<{
 export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: 'User', email: string, name: string } };
 
 
-export const UsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<UsersQuery, UsersQueryVariables>;
+export const WhoAmIDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"whoAmI"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"whoAmI"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<WhoAmIQuery, WhoAmIQueryVariables>;
 export const SigninDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Signin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SigninInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}}]}}]}}]} as unknown as DocumentNode<SigninMutation, SigninMutationVariables>;
 export const SignupDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Signup"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SignupInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signup"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<SignupMutation, SignupMutationVariables>;

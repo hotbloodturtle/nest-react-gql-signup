@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -28,7 +28,6 @@ export class AuthService {
 
   async signin(input: SigninInput): Promise<TokenType> {
     const user = await this.usersService.findOne(input.email);
-
     if (user && user.comparePassword(input.password)) {
       const payload = { username: user.email, sub: user.id, name: user.name };
       const refreshToken = await this.repository.findOne({
@@ -39,5 +38,23 @@ export class AuthService {
         refreshToken: refreshToken.uuid,
       };
     }
+  }
+
+  async tokenRefresh(uuid: string): Promise<TokenType> {
+    const refreshToken = await this.repository.findOne({
+      where: { uuid },
+      relations: ['user'],
+    });
+    if (!refreshToken) {
+      throw new UnauthorizedException();
+    }
+    return {
+      accessToken: this.jwtService.sign({
+        username: refreshToken.user.email,
+        sub: refreshToken.user.id,
+        name: refreshToken.user.name,
+      }),
+      refreshToken: refreshToken.uuid,
+    };
   }
 }

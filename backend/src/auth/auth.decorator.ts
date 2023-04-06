@@ -27,3 +27,10 @@ export const GraphqlResponse = createParamDecorator(
     return ctx.getContext().res;
   },
 );
+
+export const GraphqlRequest = createParamDecorator(
+  (data: unknown, context: ExecutionContext) => {
+    const ctx = GqlExecutionContext.create(context);
+    return ctx.getContext().req;
+  },
+);

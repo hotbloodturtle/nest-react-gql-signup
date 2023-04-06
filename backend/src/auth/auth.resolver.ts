@@ -1,8 +1,8 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
-import { CookieOptions, Response } from 'express';
-import { User } from '../users/users.entity';
-import { GraphqlResponse } from './auth.decorator';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { CookieOptions, Request, Response } from 'express';
+import { GraphqlRequest, GraphqlResponse } from './auth.decorator';
 import { SigninInput, SignupInput, TokenType } from './auth.dto';
 import { AuthService } from './auth.service';
 
@@ -26,16 +26,33 @@ export class AuthResolver {
     return token;
   }
 
-  @Mutation(() => TokenType, { nullable: true })
+  @Mutation(() => TokenType)
   async signin(
     @Args('input') input: SigninInput,
     @GraphqlResponse() res: Response,
   ): Promise<TokenType> {
     const token = await this.authService.signin(input);
-    if (token) {
-      res.cookie('accessToken', token.accessToken, this.cookieOptions);
-      res.cookie('refreshToken', token.refreshToken, this.cookieOptions);
+    if (!token) {
+      throw new BadRequestException();
     }
+    res.cookie('accessToken', token.accessToken, this.cookieOptions);
+    res.cookie('refreshToken', token.refreshToken, this.cookieOptions);
+    return token;
+  }
+
+  @Mutation(() => TokenType)
+  async tokenRefresh(
+    @Args('refreshToken', { nullable: true }) refreshToken: string,
+    @GraphqlRequest() req: Request,
+    @GraphqlResponse() res: Response,
+  ): Promise<TokenType> {
+    const accessToken = refreshToken || req?.cookies?.refreshToken;
+    if (!accessToken) {
+      throw new UnauthorizedException();
+    }
+    const token = await this.authService.tokenRefresh(accessToken);
+    res.cookie('accessToken', token.accessToken, this.cookieOptions);
+    res.cookie('refreshToken', token.refreshToken, this.cookieOptions);
     return token;
   }
 }

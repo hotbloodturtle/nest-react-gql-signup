@@ -4,41 +4,37 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Generated,
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { User } from '../users/users.entity';
 
-@Entity('verification')
-@ObjectType()
-export class Verification {
+@Entity('refresh_token')
+export class RefreshToken {
   @PrimaryGeneratedColumn()
-  @Field(() => Int)
   id: number;
 
-  @OneToOne(() => User, (user) => user.verification, {
+  @OneToOne(() => User, (user) => user.refreshToken, {
     cascade: true,
   })
   @JoinColumn({ name: 'user_id' })
-  @Field(() => User)
   user: User;
 
-  @Column({ length: 20 })
-  @Field(() => String)
-  code: string;
+  @Column()
+  @Generated('uuid')
+  uuid: string;
 
-  @UpdateDateColumn({ name: 'confirmed_at', nullable: true })
-  @Field(() => Date)
-  confirmedAt: Date;
+  @Column({ type: 'datetime', name: 'expired_at', nullable: true })
+  expiredAt: Date;
 
   @CreateDateColumn({ name: 'created_at' })
-  @Field(() => Date)
   createdAt: Date;
 
   @BeforeInsert()
-  createCode(): void {
-    this.code = Math.random().toString(10).substring(2, 8);
+  createExpiredAt(): void {
+    this.expiredAt = new Date();
+    this.expiredAt.setDate(this.expiredAt.getDate() + 30);
   }
 }

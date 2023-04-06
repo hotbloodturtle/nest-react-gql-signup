@@ -8,8 +8,8 @@ import { SignupInput } from "../../gql/graphql";
 const signupDoc = graphql(`
   mutation Signup($input: SignupInput!) {
     signup(input: $input) {
-      email
-      name
+      accessToken
+      refreshToken
     }
   }
 `);

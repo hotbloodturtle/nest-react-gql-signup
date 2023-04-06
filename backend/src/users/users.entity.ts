@@ -8,7 +8,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Verification } from '../auth/auth.entity';
+import { RefreshToken } from '../auth/auth.entity';
 
 @Entity('user')
 @ObjectType()
@@ -41,11 +41,10 @@ export class User {
   @Field(() => Date)
   createdAt: Date;
 
-  @OneToOne(() => Verification, (verification) => verification.user, {
+  @OneToOne(() => RefreshToken, (refreshToken) => refreshToken.user, {
     nullable: true,
   })
-  @Field(() => Verification, { nullable: true })
-  verification: Verification;
+  refreshToken: RefreshToken;
 
   @BeforeInsert()
   hashPassword(): void {

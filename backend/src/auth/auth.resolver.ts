@@ -20,9 +20,10 @@ export class AuthResolver {
     };
   }
 
-  @Mutation(() => User)
-  signup(@Args('input') input: SignupInput): Promise<User> {
-    return this.authService.signup(input);
+  @Mutation(() => TokenType)
+  async signup(@Args('input') input: SignupInput): Promise<TokenType> {
+    const token = await this.authService.signup(input);
+    return token;
   }
 
   @Mutation(() => TokenType, { nullable: true })

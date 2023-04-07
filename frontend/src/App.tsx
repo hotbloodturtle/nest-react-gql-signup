@@ -5,6 +5,7 @@ import Page404 from "./pages/404";
 import PageAdminHome from "./pages/admin";
 import PageSignin from "./pages/signin";
 import PageSignup from "./pages/signup";
+import "./index.css";
 
 function App() {
   const client = new ApolloClient({

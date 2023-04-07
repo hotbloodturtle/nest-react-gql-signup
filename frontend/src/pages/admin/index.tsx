@@ -1,18 +1,9 @@
 import { useQuery } from "@apollo/client";
-import { graphql } from "../../gql";
 import LayoutAdmin from "./LayoutAdmin";
-
-const whoAmI = graphql(`
-  query whoAmI {
-    whoAmI {
-      id
-      name
-    }
-  }
-`);
+import { WhoAmIQueryDocument } from "../../gql/queries";
 
 const PageAdminHome = () => {
-  const { data } = useQuery(whoAmI);
+  const { data } = useQuery(WhoAmIQueryDocument);
   return (
     <LayoutAdmin>
       <div>admin home</div>

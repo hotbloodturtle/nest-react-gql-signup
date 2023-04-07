@@ -21,8 +21,13 @@ export class AuthResolver {
   }
 
   @Mutation(() => TokenType)
-  async signup(@Args('input') input: SignupInput): Promise<TokenType> {
+  async signup(
+    @Args('input') input: SignupInput,
+    @GraphqlResponse() res: Response,
+  ): Promise<TokenType> {
     const token = await this.authService.signup(input);
+    res.cookie('accessToken', token.accessToken, this.cookieOptions);
+    res.cookie('refreshToken', token.refreshToken, this.cookieOptions);
     return token;
   }
 

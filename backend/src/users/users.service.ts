@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SignupInput } from '../auth/auth.dto';
@@ -10,10 +10,8 @@ export class UsersService {
     @InjectRepository(User)
     private repository: Repository<User>,
   ) {}
-  findAll(): Promise<User[]> {
-    return this.repository.find();
-  }
   findOne(email: string): Promise<User> {
+    if (!email) throw new HttpException('Email is required', 400);
     return this.repository.findOneBy({ email });
   }
   createUser(input: SignupInput): Promise<User> {

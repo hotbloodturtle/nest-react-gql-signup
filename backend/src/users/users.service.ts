@@ -10,12 +10,13 @@ export class UsersService {
     @InjectRepository(User)
     private repository: Repository<User>,
   ) {}
-  findOne(email: string): Promise<User> {
-    if (!email) throw new HttpException('Email is required', 400);
-    return this.repository.findOneBy({ email });
+  findOne(username: string): Promise<User> {
+    if (!username) throw new HttpException('Username is required', 400);
+    return this.repository.findOneBy({ username });
   }
   createUser(input: SignupInput): Promise<User> {
     const user = this.repository.create(input);
+    user.username = user.email;
     return this.repository.save(user);
   }
 }

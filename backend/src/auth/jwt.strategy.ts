@@ -10,13 +10,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         (req) => req?.cookies?.accessToken,
         ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
-      usernameField: 'email',
+      usernameField: 'username',
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET || 'HI I AM A SECRET KEY',
     });
   }
 
   async validate(payload: any) {
-    return { id: payload.sub, email: payload.email };
+    return { id: payload.sub, username: payload.username };
   }
 }

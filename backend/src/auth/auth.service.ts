@@ -19,7 +19,7 @@ export class AuthService {
     const user = await this.usersService.createUser(input);
     const refreshTokenEntity = await this.repository.create({ user: user });
     const refreshToken = await this.repository.save(refreshTokenEntity);
-    const payload = { email: user.email, sub: user.id, name: user.name };
+    const payload = { username: user.username, sub: user.id, name: user.name };
     return {
       accessToken: this.jwtService.sign(payload),
       refreshToken: refreshToken.uuid,
@@ -29,7 +29,11 @@ export class AuthService {
   async signin(input: SigninInput): Promise<TokenType> {
     const user = await this.usersService.findOne(input.email);
     if (user && user.comparePassword(input.password)) {
-      const payload = { email: user.email, sub: user.id, name: user.name };
+      const payload = {
+        username: user.username,
+        sub: user.id,
+        name: user.name,
+      };
       const refreshToken = await this.repository.findOne({
         where: { user: { id: user.id } },
       });
@@ -50,7 +54,7 @@ export class AuthService {
     }
     return {
       accessToken: this.jwtService.sign({
-        email: refreshToken.user.email,
+        username: refreshToken.user.username,
         sub: refreshToken.user.id,
         name: refreshToken.user.name,
       }),

@@ -24,7 +24,7 @@ input SigninInput {
 
 input SignupInput {
   email: String!
-  name: String!
+  name: String
   password: String!
 }
 
@@ -41,4 +41,5 @@ type User {
   isAdmin: Boolean!
   name: String!
   password: String!
+  username: String!
 }

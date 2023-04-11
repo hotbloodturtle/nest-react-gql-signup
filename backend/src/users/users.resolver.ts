@@ -12,6 +12,6 @@ export class UsersResolver {
   @Query(() => User)
   @UseGuards(GqlAuthGuard)
   whoAmI(@CurrentUser() user: User): Promise<User> {
-    return this.usersService.findOne(user.email);
+    return this.usersService.findOne(user.username);
   }
 }

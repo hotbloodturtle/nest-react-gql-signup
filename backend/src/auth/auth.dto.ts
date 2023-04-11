@@ -5,7 +5,7 @@ export class SignupInput {
   @Field()
   email: string;
 
-  @Field()
+  @Field({ nullable: true })
   name: string;
 
   @Field()

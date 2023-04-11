@@ -27,13 +27,17 @@ export class User {
 
   @Column({ length: 60, unique: true })
   @Field(() => String)
+  username: string;
+
+  @Column({ length: 60, nullable: true })
+  @Field(() => String)
   email: string;
 
   @Column()
   @Field(() => String)
   password: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: true })
   @Field(() => String)
   name: string;
 

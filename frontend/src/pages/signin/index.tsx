@@ -29,11 +29,21 @@ const signinContainer = createContainer(() => {
       },
     });
   });
-  return { register, signin, errors };
+
+  // kakao
+  const signInKakao = () => {
+    const redirectUri = `${window?.location?.origin}/signin/kakao`;
+    const clientId = process.env.KAKAO_REST_KEY;
+    if (!redirectUri || !clientId) return;
+    const kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize";
+    location.href = `${kakaoAuthUrl}?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+  };
+  return { register, signin, errors, signInKakao };
 });
 
 const ContentSignin = () => {
-  const { signin, errors, register } = signinContainer.useContainer();
+  const { signin, errors, register, signInKakao } =
+    signinContainer.useContainer();
   return (
     <>
       {errors?.root?.message && <Alert text={errors.root.message} />}
@@ -68,6 +78,13 @@ const ContentSignin = () => {
               로그인
             </button>
           </form>
+          <div className="h-[1px] w-full bg-base-content mt-8" />
+          <div
+            className="flex flex-col items-center justify-center mt-8"
+            onClick={signInKakao}
+          >
+            SNS 로그인
+          </div>
         </section>
       </div>
     </>

@@ -6,6 +6,7 @@ import PageAdminHome from "./pages/admin";
 import PageSignin from "./pages/signin";
 import PageSignup from "./pages/signup";
 import "./index.css";
+import PageSigninKakao from "./pages/signin/kakao/index.";
 
 function App() {
   const client = new ApolloClient({
@@ -20,6 +21,7 @@ function App() {
           {/* user */}
           <Route path="/" element={<PageHome />} />
           <Route path="/signin" element={<PageSignin />}></Route>
+          <Route path="/signin/kakao" element={<PageSigninKakao />}></Route>
           <Route path="/signup" element={<PageSignup />}></Route>
 
           {/* admin */}

@@ -16,3 +16,12 @@ export const SignupMutationDocument = graphql(`
     }
   }
 `);
+
+export const KaKaoSigninMutationDocument = graphql(`
+  mutation KakaoSignin($code: String!) {
+    kakaoSignin(code: $code) {
+      accessToken
+      refreshToken
+    }
+  }
+`);

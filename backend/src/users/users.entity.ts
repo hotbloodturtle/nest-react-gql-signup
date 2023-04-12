@@ -33,7 +33,7 @@ export class User {
   @Field(() => String)
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String)
   password: string;
 
@@ -52,7 +52,9 @@ export class User {
 
   @BeforeInsert()
   hashPassword(): void {
-    this.password = hashSync(this.password, genSaltSync());
+    if (this.password) {
+      this.password = hashSync(this.password, genSaltSync());
+    }
   }
 
   comparePassword(password: string): boolean {

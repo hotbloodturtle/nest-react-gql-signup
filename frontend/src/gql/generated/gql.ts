@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  mutation Signin($input: SigninInput!) {\n    signin(input: $input) {\n      accessToken\n    }\n  }\n": types.SigninDocument,
     "\n  mutation Signup($input: SignupInput!) {\n    signup(input: $input) {\n      accessToken\n      refreshToken\n    }\n  }\n": types.SignupDocument,
+    "\n  mutation KakaoSignin($code: String!) {\n    kakaoSignin(code: $code) {\n      accessToken\n      refreshToken\n    }\n  }\n": types.KakaoSigninDocument,
     "\n  query whoAmI {\n    whoAmI {\n      id\n      name\n    }\n  }\n": types.WhoAmIDocument,
 };
 
@@ -40,6 +41,10 @@ export function graphql(source: "\n  mutation Signin($input: SigninInput!) {\n  
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation Signup($input: SignupInput!) {\n    signup(input: $input) {\n      accessToken\n      refreshToken\n    }\n  }\n"): (typeof documents)["\n  mutation Signup($input: SignupInput!) {\n    signup(input: $input) {\n      accessToken\n      refreshToken\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation KakaoSignin($code: String!) {\n    kakaoSignin(code: $code) {\n      accessToken\n      refreshToken\n    }\n  }\n"): (typeof documents)["\n  mutation KakaoSignin($code: String!) {\n    kakaoSignin(code: $code) {\n      accessToken\n      refreshToken\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

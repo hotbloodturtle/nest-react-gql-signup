@@ -46,6 +46,17 @@ export class AuthResolver {
   }
 
   @Mutation(() => TokenType)
+  async kakaoSignin(
+    @Args('code') code: string,
+    @GraphqlResponse() res: Response,
+  ): Promise<TokenType> {
+    const token = await this.authService.kakaoSignin(code);
+    res.cookie('accessToken', token.accessToken, this.cookieOptions);
+    res.cookie('refreshToken', token.refreshToken, this.cookieOptions);
+    return token;
+  }
+
+  @Mutation(() => TokenType)
   async tokenRefresh(
     @Args('refreshToken', { nullable: true }) refreshToken: string,
     @GraphqlRequest() req: Request,

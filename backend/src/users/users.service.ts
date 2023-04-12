@@ -19,4 +19,11 @@ export class UsersService {
     user.username = user.email;
     return this.repository.save(user);
   }
+
+  getOrCreateSocialUser(username: string): Promise<User> {
+    const findUser = this.repository.findOneBy({ username });
+    if (findUser) return findUser;
+    const user = this.repository.create({ username });
+    return this.repository.save(user);
+  }
 }
